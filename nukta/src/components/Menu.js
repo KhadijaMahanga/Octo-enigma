@@ -14,10 +14,9 @@ class Menu extends Component {
 	}
 
 	componentDidMount() {
-		fetch('http://localhost:8000/wp-json/menus/v1/menus/nukta-menu')
+		fetch('/wp-json/menus/v1/menus/nav-menu')
 			.then(response => response.json())
 			.then(data => {
-				console.log(data);
 				const menus = [];
 				if(data.items.length > 0) {
 					data.items.map(item => {
