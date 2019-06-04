@@ -1,32 +1,38 @@
-import React, { Component } from 'react';
-import {Link} from "react-router-dom";
+import React from 'react';
+import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
+import Moment from 'react-moment';
 
-class Card extends Component {
-	render() {
-		const cardClass = this.props.cardClass;
-		const cardInfo = this.props.cardInfo;
-		var url='',title='',cover='',author='',date='',views='',comments='';
-		if(cardInfo!==null && cardInfo!==undefined){
-			url=cardInfo.url;
-			cover=cardInfo.cover;
-			author=cardInfo.author;
-			title=cardInfo.title;
-			date=cardInfo.date;
-			views=cardInfo.views;
-			comments=cardInfo.comments;
-		}
+function Card ({ cardClass, cardInfo }) {
+	const url = cardInfo.slug;
+	const title = cardInfo.title.rendered;
+	//const author = cardInfo.acf.author_name;
+	const date = cardInfo.modified;
+	const coverUrl = cardInfo._embedded["wp:featuredmedia"][0]["source_url"];
+	const category = cardInfo._embedded["wp:term"][0]["slug"];
+
+	const TWO_DAYS = 2 * 24 * 60 * 60 * 1000; /* ms */
+	const dateToFormat = new Date(date);
+	const now = new Date();
+	const momentsPublished = now - dateToFormat > TWO_DAYS ? (
+		<Moment format="D MMM, YYYY" withTitle>{dateToFormat}</Moment>
+	): (
+		<Moment fromNow>{dateToFormat}</Moment>
+	)
 	return (
-			<div className={cardClass}>
-				<div className="rw75 bg-layer" style={{backgroundImage: 'url('+cover+')'}}></div>
-				<h4 className="pt-20"><Link to={'/article/'+url}><b>{title}</b></Link></h4>
-				<ul className="list-li-mr-20 pt-10 mb-30">
-					<li className="color-lite-black">by <a href={url} className="color-black"><b>{author},</b></a> {date}</li>
-					<li><i className="color-primary mr-5 font-12 ion-ios-bolt"></i>{views}</li>
-					<li><i className="color-primary mr-5 font-12 ion-chatbubbles"></i>{comments}</li>
-				</ul>
-			</div>
+		<div className={cardClass}>
+			<div className="rw75 bg-layer" style={{backgroundImage: 'url('+coverUrl+')'}}></div>
+			<h4 className="pt-20"><Link to={`/${category}/${url}`}><b>{title}</b></Link></h4>
+			<ul className="list-li-mr-20 pt-10 mb-30">
+				<li className="color-lite-black">{momentsPublished}</li>
+			</ul>
+		</div>
     );
-  }
+}
+
+Card.propTypes = {
+	cardInfo: PropTypes.object.isRequired,
+	cardClass: PropTypes.string.isRequired
 }
 
 export default Card;

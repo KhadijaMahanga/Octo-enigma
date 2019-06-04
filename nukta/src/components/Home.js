@@ -10,18 +10,20 @@ class Home extends Component {
 	constructor(props) {
   	super(props);
   	this.state = {
-			articles: []
+			articles: [],
+			isLoaded: false
 		}
-  }
+  	}
 
 	componentDidMount() {
-		fetch('/wp-json/wp/v2/posts')
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          articles: res
-        })
-      });
+		fetch('/wp-json/wp/v2/posts?_embed')
+      	.then(res => res.json())
+      	.then(res => {
+			this.setState({
+				articles: res,
+				isLoaded: true
+			})
+		}).catch(err => console.log(err));
 	}
 
 	moreNews(e){
@@ -50,54 +52,68 @@ class Home extends Component {
 		// 																			)
 		// 																		else return(<div key={index}></div>);
 		// 																	}):null;
-			const recentArticles = this.state.articles.slice(0,6);
-			console.log(recentArticles);
+		const { articles, isLoaded } = this.state;
+		if (isLoaded) {
+			const recentArticles = articles.slice(0,6);
+			const otherArticles = articles.slice(6);
+			console.log(this.state.articles);
 			return (
 				<Layout>
 					<div>
-				  	{recentArticles.length > 0? (<Homeshow slides={recentArticles} />) : null }
-					</div>
-				  {/* <div className="section pv-50 text-left">
-					<div className="container">
-						<div className="row">
-							<div className="col-md-12 col-lg-8">
-								<Title name="HABARI MPYA"/>
+						{recentArticles.length > 5? (<Homeshow slides={recentArticles} />) : null }
+						<div className="section pv-50 text-left">
+							<div className="container">
 								<div className="row">
-									<div className="col-sm-6">
-										<Card cardClass="oflow-hidden pos-relative dplay-block" cardInfo={this.props.parentState.data.recent?this.props.parentState.data.recent[6]:null}/>
-										<Cardlow cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={this.props.parentState.data.recent?this.props.parentState.data.recent[7]:null}/>
-										<Cardlow cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={this.props.parentState.data.recent?this.props.parentState.data.recent[8]:null}/>
-										<Cardlow cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={this.props.parentState.data.recent?this.props.parentState.data.recent[9]:null}/>
-										<Cardlow cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={this.props.parentState.data.recent?this.props.parentState.data.recent[10]:null}/>
+									<div className="col-md-12 col-lg-8">
+										<Title name="HABARI MPYA"/>
+										<div className="row">
+											{otherArticles.length > 3 && (
+												<div className="col-sm-6">
+													<Card cardClass="oflow-hidden pos-relative dplay-block" cardInfo={otherArticles[0]}/>
+													{otherArticles.slice(1,5).map(article => (
+														<Cardlow key={article.id}
+																cardClass="oflow-hidden pos-relative mb-20 dplay-block"
+																cardInfo={article}
+																/>
+													))}
+												</div>
+											)}
+											{otherArticles.length > 6 && (
+												<div className="col-sm-6">
+													{otherArticles.slice(5,9).map(article => (
+														<Cardlow key={article.id}
+																cardClass="oflow-hidden pos-relative mb-20 dplay-block"
+																cardInfo={article}
+																/>
+													))}
+													<Card cardClass="oflow-hidden pos-relative dplay-block" cardInfo={otherArticles[9]}/>
+												</div>
+											)}
+										</div>
 									</div>
-									<div className="col-sm-6">
-										<Cardlow cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={this.props.parentState.data.recent?this.props.parentState.data.recent[11]:null}/>
-										<Cardlow cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={this.props.parentState.data.recent?this.props.parentState.data.recent[12]:null}/>
-										<Cardlow cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={this.props.parentState.data.recent?this.props.parentState.data.recent[13]:null}/>
-										<Cardlow cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={this.props.parentState.data.recent?this.props.parentState.data.recent[14]:null}/>
-										<Card cardClass="oflow-hidden pos-relative dplay-block" cardInfo={this.props.parentState.data.recent?this.props.parentState.data.recent[15]:null}/>
-									</div>
+									{/* <div className="col-md-6 col-lg-4">
+										<div className="pl-20 pl-md-0">
+											<div className="mb-50">
+												<Title name="ZILIZOSOMWA ZAIDI"/>
+												{popularList}
+											</div>
+											<Subscribe post={this.props.post} url={this.props.url} />
+										</div>
+									</div> */}
 								</div>
+								{/* <div className="">
+									<Title titleClass="mt-30" name="HABARI ZA NUKTA"/>
+									<div className="row more-news">{newsList}</div>
+									<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>PATA HABARI ZAIDI TOKA NUKTA</b></a>
+								</div> */}
 							</div>
-							<div className="col-md-6 col-lg-4">
-								<div className="pl-20 pl-md-0">
-									<div className="mb-50">
-										<Title name="ZILIZOSOMWA ZAIDI"/>
-										{popularList}
-									</div>
-									<Subscribe post={this.props.post} url={this.props.url} />
-								</div>
-							</div>
-						</div>
-						<div className="">
-							<Title titleClass="mt-30" name="HABARI ZA NUKTA"/>
-							<div className="row more-news">{newsList}</div>
-							<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>PATA HABARI ZAIDI TOKA NUKTA</b></a>
 						</div>
 					</div>
-				</div> */}
-			</Layout>
-		);
+				</Layout>
+			);
+		}
+
+		return <h3>Loading ...</h3>
 	}
 }
 

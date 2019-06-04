@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Title extends Component {
-	render() {
-		const name = this.props.name;
+function Title ({ name, titleClass }) {
 	return (
-			<h4 className={this.props.titleClass+" p-title"}><b>{name}</b></h4>
-    );
-  }
+		<h4 className={titleClass+" p-title"}>
+			<b>{name}</b>
+		</h4>
+	);
 }
 
 export default Title;
