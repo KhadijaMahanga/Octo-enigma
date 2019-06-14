@@ -16,7 +16,7 @@ class Home extends Component {
   	}
 
 	componentDidMount() {
-		fetch('/wp-json/wp/v2/posts?_embed')
+		fetch('/wp-json/wp/v2/posts')
       	.then(res => res.json())
       	.then(res => {
 			this.setState({
