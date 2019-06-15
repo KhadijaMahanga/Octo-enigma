@@ -8,8 +8,11 @@ function Cardshow  ({ cardClass, cardInfo }) {
 	const title = cardInfo.title.rendered;
 	//const author = cardInfo.acf.author_name;
 	const date = cardInfo.modified;
-	const coverUrl = cardInfo._embedded["wp:featuredmedia"][0]["source_url"];
-	const category = cardInfo._embedded["wp:term"][0]["slug"];
+	const coverUrl = cardInfo.full_image_src;
+	let category = "habari";
+	if (cardInfo.categories_list.length > 0) {
+		category = cardInfo.categories_list[0]["slug"];
+	}
 
 	const TWO_DAYS = 2 * 24 * 60 * 60 * 1000; /* ms */
 	const dateToFormat = new Date(date);
