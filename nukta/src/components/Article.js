@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
 import Title from './Title.js';
-import Cardlow from './Cardlow.js';
 import Card from './Card.js';
 import Subscribe from './Subscribe.js';
 import axios from 'axios';
@@ -77,8 +76,9 @@ class Article extends Component {
 									<ul className="list-li-mr-20 mtb-15">
 										<li>by{' '}<b>{article.acf.author_name}</b>&nbsp;{article.date}</li>
 									</ul>
+									{ article.excerpt.rendered && <div dangerouslySetInnerHTML={{__html:article.excerpt.rendered}} /> }
 									<hr/>
-									<div className="article-contents" dangerouslySetInnerHTML={{__html: article.content.rendered }} ></div>
+									<div className="article-contents" dangerouslySetInnerHTML={{__html: article.content.rendered }} />
 									<div className="float-left-right text-center mt-40 mt-sm-20">
 											<ul className="mb-30 list-li-mt-10 list-li-mr-5 list-a-plr-15 list-a-ptb-7 list-a-bg-grey list-a-br-2 list-a-hvr-primary ">
 												<li><Link to={`/${category_slug}`}>{category_name}</Link></li>
