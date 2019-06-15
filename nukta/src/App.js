@@ -17,8 +17,8 @@ function App() {
 		<Router>
 				<Switch>
 					<Route exact path="/" component={Home} />
+					<Route exact path="/:section/:article_slug" component={Article} />
 					{/* <Route exact path="/about" render={()=> <About  parentState={this.state} url={url} post={post}/>}/>
-					<Route exact path="/article/:title" render={(props)=> <Article title={props.match.params.title} parentState={this.state} url={url} post={post}/>} />
 					<Route path="/contact" render={()=> <Contact parentState={this.state} post={post} url={url}/>}/>
 					<Route exact path="/category/:title" render={(props)=> <Category title={props.match.params.title} parentState={this.state} url={url} post={post}/>}/>
 					<Route path="/privacy" render={()=> <Privacy parentState={this.state} post={post} url={url}/>} />
