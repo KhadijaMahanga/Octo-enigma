@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import Homeshow from './Homeshow.js';
-import Title from './Title.js';
+import React, { Component, Fragment } from 'react';
+import Homeshow from './Homeshow';
+import Title from './Title';
 import PopularList from './PopularList';
-import Cardlow from './Cardlow.js';
-import Card from './Card.js';
-import Subscribe from './Subscribe.js';
-import Layout from './Layout.js';
+import Cardlow from './Cardlow';
+import Card from './Card';
+import Subscribe from './Subscribe';
+import Layout from './Layout';
+import MoreNews from './MoreNews';
 
 class Home extends Component {
 	constructor(props) {
@@ -17,7 +18,7 @@ class Home extends Component {
   	}
 
 	componentDidMount() {
-		fetch('/wp-json/wp/v2/posts')
+		fetch('/wp-json/wp/v2/posts?per_page=25')
       	.then(res => res.json())
       	.then(res => {
 			this.setState({
@@ -41,16 +42,11 @@ class Home extends Component {
 	}
 
 	render() {
-		// const newsList = this.props.parentState.data.news?this.props.parentState.data.news.map((row,index,)=>{
-		// 																		return(
-		// 																			   <Card key={index} cardClass="col-sm-4" cardInfo={row}/>
-		// 																			)
-		// 																		}):null;
 		const { articles, isLoaded } = this.state;
 		if (isLoaded) {
 			const recentArticles = articles.slice(0,6);
 			const otherArticles = articles.slice(6);
-			console.log(this.state.articles);
+
 			return (
 				<Layout>
 					<div>
@@ -94,11 +90,17 @@ class Home extends Component {
 										</div>
 									</div>
 								</div>
-								{/* <div className="">
-									<Title titleClass="mt-30" name="HABARI ZA NUKTA"/>
-									<div className="row more-news">{newsList}</div>
-									<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>PATA HABARI ZAIDI TOKA NUKTA</b></a>
-								</div> */}
+								{otherArticles.length > 9 && (
+									<Fragment>
+										<MoreNews
+											titleClass="mt-30"
+											titleName="HABARI ZA NUKTA"
+											cardDiv="row more-news"
+											cardClass="col-sm-4"
+											newsList={otherArticles.slice(10)} />
+										<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>PATA HABARI ZAIDI TOKA NUKTA</b></a>
+									</Fragment>
+								)}
 							</div>
 						</div>
 					</div>

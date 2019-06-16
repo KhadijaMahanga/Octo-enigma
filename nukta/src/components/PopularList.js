@@ -25,7 +25,7 @@ class PopularList extends Component {
         <Fragment>
           <Title name="ZILIZOSOMWA ZAIDI"/>
           { popularPosts.length > 0 && popularPosts.map((post, index) => (
-            <Cardlow key={index} cardclassName="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={post}/>
+            <Cardlow key={index} cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={post}/>
           ))}
         </Fragment>
 
