@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Title from './Title.js';
 import Card from './Card.js';
 import Subscribe from './Subscribe.js';
+import Layout from './Layout.js';
 import axios from 'axios';
 
 class Article extends Component {
@@ -13,7 +14,7 @@ class Article extends Component {
 	}
 
 	componentDidMount() {
-		axios.get(`https://api.nukta.co.tz/wp-json/wp/v2/posts?slug=${this.props.match.params.article_slug}`)
+		axios.get(`/wp-json/wp/v2/posts?slug=${this.props.match.params.article_slug}`)
 			.then(res => this.setState({
 				article: res.data[0],
 				isLoaded: true
@@ -54,7 +55,6 @@ class Article extends Component {
 		// 																		else return(<div key={index}></div>);
 		// 																	}):null;
 		if(isLoaded) {
-			console.log(article);
 			let category_name = "Habari";
 			let category_slug = "habari";
 			if (article.categories_list.length > 0) {
@@ -63,7 +63,8 @@ class Article extends Component {
 			}
 			console.log(article);
 			return (
-				<Fragment>
+				<Layout>
+					<Fragment>
 					<div className="brdr-ash-1 opacty-5" />
 					<div className="section pv-50 text-left">
 						<div className="container">
@@ -108,6 +109,7 @@ class Article extends Component {
 					</div>
 				</div>
 			</Fragment>
+			</Layout>
 		);
 
 		}
