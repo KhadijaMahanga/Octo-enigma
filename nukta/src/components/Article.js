@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
 import Title from './Title.js';
+import PopularList from './PopularList';
 import Card from './Card.js';
 import Subscribe from './Subscribe.js';
 import Layout from './Layout.js';
@@ -39,14 +40,6 @@ class Article extends Component {
 
 	render() {
 		const { article, isLoaded } = this.state;
-
-		// const popularList = this.props.parentState.data.popular?this.props.parentState.data.popular.map((row,index,)=>{
-		// 																		if(index<5)
-		// 																			return(
-		// 																			   <Cardlow key={index} cardclassName="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={row}/>
-		// 																			)
-		// 																		else return(<div key={index}></div>);
-		// 																	}):null;
 		// const alsoRead= this.state.data.alsoread?this.state.data.alsoread.map((row,index,)=>{
 		// 																		if(index<6)
 		// 																			return(
@@ -96,15 +89,14 @@ class Article extends Component {
 									<Title titleClass="mt-50" name="UNAWEZA PIA SOMA"/>
 										{/* <div className="row">{alsoRead}</div> */}
 								</div>
-										{/* <div className="col-md-6 col-lg-4">
-										<div className="pl-20 pl-md-0">
+								<div className="col-md-6 col-lg-4">
+									<div className="pl-20 pl-md-0">
 										<div className="mb-50">
-										<Title name="ZILIZOSOMWA ZAIDI"/>
-										{popularList}
-									</div>
-									<Subscribe post={this.props.post} url={this.props.url} />
+											<PopularList />
+										</div>
+										<Subscribe post={this.props.post} url={this.props.url} />
 								</div>
-							</div> */}
+							</div>
 						</div>
 					</div>
 				</div>

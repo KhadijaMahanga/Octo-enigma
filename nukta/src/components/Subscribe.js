@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import React, { Component } from 'react';
-import Title from './Title.js'
+import Title from './Title.js';
+import axios from 'axios';
 
 class Subscribe extends Component {
 	constructor(props) {
@@ -10,9 +11,9 @@ class Subscribe extends Component {
 
 	handleClick(event) {
     	event.preventDefault();
-    	var email = $(".subscriber-email").val(); 
+    	var email = $(".subscriber-email").val();
     	if(email!==""){
-    		this.props.post(this.props.url()+'api/?action=add-subscriber&email='+$(".subscriber-email").val(),function(result,obj){
+    		this.props.post('/api/?action=add-subscriber&email='+$(".subscriber-email").val(),function(result,obj){
 				alert(email+" imeongezwa kikamilifu");
 			},this)
     		$(".subscriber-email").val("");

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Homeshow from './Homeshow.js';
 import Title from './Title.js';
+import PopularList from './PopularList';
 import Cardlow from './Cardlow.js';
 import Card from './Card.js';
 import Subscribe from './Subscribe.js';
@@ -45,13 +46,6 @@ class Home extends Component {
 		// 																			   <Card key={index} cardClass="col-sm-4" cardInfo={row}/>
 		// 																			)
 		// 																		}):null;
-		// const popularList = this.props.parentState.data.popular?this.props.parentState.data.popular.map((row,index,)=>{
-		// 																		if(index<5)
-		// 																			return(
-		// 																			   <Cardlow key={index} cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={row}/>
-		// 																			)
-		// 																		else return(<div key={index}></div>);
-		// 																	}):null;
 		const { articles, isLoaded } = this.state;
 		if (isLoaded) {
 			const recentArticles = articles.slice(0,6);
@@ -91,15 +85,14 @@ class Home extends Component {
 											)}
 										</div>
 									</div>
-									{/* <div className="col-md-6 col-lg-4">
+									<div className="col-md-6 col-lg-4">
 										<div className="pl-20 pl-md-0">
 											<div className="mb-50">
-												<Title name="ZILIZOSOMWA ZAIDI"/>
-												{popularList}
+												<PopularList />
 											</div>
 											<Subscribe post={this.props.post} url={this.props.url} />
 										</div>
-									</div> */}
+									</div>
 								</div>
 								{/* <div className="">
 									<Title titleClass="mt-30" name="HABARI ZA NUKTA"/>

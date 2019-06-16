@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Cardlow from './Cardlow.js';
+import Title from './Title';
 import axios from 'axios';
 
 class PopularList extends Component {
@@ -22,7 +23,8 @@ class PopularList extends Component {
     if (isLoaded) {
       return (
         <Fragment>
-          { popularPosts.length > 0 && .map((post, index) => (
+          <Title name="ZILIZOSOMWA ZAIDI"/>
+          { popularPosts.length > 0 && popularPosts.map((post, index) => (
             <Cardlow key={index} cardclassName="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={post}/>
           ))}
         </Fragment>
