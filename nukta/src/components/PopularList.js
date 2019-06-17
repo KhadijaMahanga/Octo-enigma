@@ -10,7 +10,7 @@ class PopularList extends Component {
   }
 
   componentDidMount() {
-    axios.get('https://api.nukta.co.tz/wp-json/wordpress-popular-posts/v1/popular-posts')
+    axios.get('https://api.nukta.co.tz/wp-json/wordpress-popular-posts/v1/popular-posts?range=last7days')
       .then(res => this.setState({
         popularPosts: res.data,
         isLoaded: true
