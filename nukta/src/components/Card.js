@@ -8,7 +8,7 @@ function Card ({ cardClass, cardInfo }) {
 	const title = cardInfo.title.rendered;
 	//const author = cardInfo.acf.author_name;
 	const date = cardInfo.modified;
-	const coverUrl = cardInfo.medium_image_src;
+	const coverUrl = cardInfo.full_image_src;
 	let category = "habari";
 	if (cardInfo.categories_list.length > 0) {
 		category = cardInfo.categories_list[0]["slug"];

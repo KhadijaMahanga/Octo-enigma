@@ -1,26 +1,37 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
-import Title from './Title.js';
 import PopularList from './PopularList';
-import Card from './Card.js';
 import Subscribe from './Subscribe.js';
 import Layout from './Layout.js';
 import axios from 'axios';
+import RelatedContent from './RelatedContent';
 
 class Article extends Component {
 
 	state = {
 		article: {},
+		relatedarticles: [],
 		isLoaded: false
 	}
 
 	componentDidMount() {
 		axios.get(`/wp-json/wp/v2/posts?slug=${this.props.match.params.article_slug}`)
+			.then(res => {
+				this.fetchRelatedArticles(res.data[0]);
+			})
+			.catch(err => console.log(err));
+	}
+
+	fetchRelatedArticles(post) {
+		console.log(post)
+		axios.get(`https://api.nukta.co.tz/wp-json/related-posts-by-taxonomy/v1/posts/${post.id}?posts_per_page=6&fields=ids`)
 			.then(res => this.setState({
-				article: res.data[0],
-				isLoaded: true
+				article: post,
+				isLoaded: true,
+				relatedarticles: res.data.posts
 			}))
 			.catch(err => console.log(err));
+
 	}
 
 	// componentDidUpdate(prevProps){
@@ -39,14 +50,8 @@ class Article extends Component {
 	// }
 
 	render() {
-		const { article, isLoaded } = this.state;
-		// const alsoRead= this.state.data.alsoread?this.state.data.alsoread.map((row,index,)=>{
-		// 																		if(index<6)
-		// 																			return(
-		// 																				<Card key={index} cardClass="col-sm-4" cardInfo={row}/>
-		// 																			)
-		// 																		else return(<div key={index}></div>);
-		// 																	}):null;
+		const { article, isLoaded, relatedarticles } = this.state;
+
 		if(isLoaded) {
 			let category_name = "Habari";
 			let category_slug = "habari";
@@ -86,8 +91,9 @@ class Article extends Component {
 											</ul>
 									</div>
 									<div className="brdr-ash-1 opacty-5"></div>
-									<Title titleClass="mt-50" name="UNAWEZA PIA SOMA"/>
-										{/* <div className="row">{alsoRead}</div> */}
+									{ relatedarticles.length > 0 && (
+										<RelatedContent	postIds={relatedarticles} />
+									)}
 								</div>
 								<div className="col-md-6 col-lg-4">
 									<div className="pl-20 pl-md-0">
@@ -95,12 +101,12 @@ class Article extends Component {
 											<PopularList />
 										</div>
 										<Subscribe post={this.props.post} url={this.props.url} />
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</Fragment>
+				</Fragment>
 			</Layout>
 		);
 
