@@ -62,6 +62,7 @@ class Article extends Component {
 				category_slug = article.categories_list[0].slug;
 			}
 			const articleDate = new Date(article.date);
+			console.log(article.excerpt.rendered.replace('<br>', '</p><p>'));
 			return (
 				<Layout>
 					<Fragment>
@@ -79,7 +80,7 @@ class Article extends Component {
 										<Moment locale="sw" format="D MMM, YYYY" withTitle>{articleDate}</Moment></li>
 									</ul>
 									<div className="article-summary">
-									{ article.excerpt.rendered && <div dangerouslySetInnerHTML={{__html:article.excerpt.rendered}} /> }
+									{ article.excerpt.rendered && <div dangerouslySetInnerHTML={{__html:article.excerpt.rendered.replace('<br />\n', '</p><p>')}} /> }
 								</div>
 									<hr/>
 									<div className="article-contents" dangerouslySetInnerHTML={{__html: article.content.rendered }} />
