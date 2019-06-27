@@ -1,31 +1,50 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Title from './Title.js';
 import PopularList from './PopularList';
-import Cardlow from './Cardlow.js';
 import Card from './Card.js';
+import MoreNews from './MoreNews';
 import Subscribe from './Subscribe.js';
+import Layout from './Layout';
 import axios from 'axios';
+
+const categoryMap = {
+	'habari': '2',
+	'teknologia': '4',
+	'biashara': '3',
+	'safari': '5',
+	'ripoti-maalum': '7',
+	'maoni-na-uchambuzi': '6'
+}
 
 class Category extends Component {
 	constructor(props) {
-    	super(props);
+		super(props);
+
+		this.state = {
+			categoryPosts: [],
+			isLoaded: false
+		}
+
     	this.moreNews = this.moreNews.bind(this);
   	}
 
-	state = {
-		title:'',
-		data:{ids:[],news:[]}
+	componentDidMount() {
+		const categoryId = categoryMap[this.props.match.params.section];
+		if (categoryId) {
+			axios.get(`/wp-json/wp/v2/posts?categories=${categoryId}`)
+			.then(res => {
+				this.setState({
+					categoryPosts: res.data,
+					isLoaded: true
+				});
+			})
+			.catch(err => console.log(err));
+		} else {
+			this.setState({
+				categoryPosts: [],
+				isLoaded: true
+			});
 		}
-
-	componentDidUpdate(prevProps){
-		if(prevProps.title!==this.props.title){
-			this.setData(this.props.title,this.state.data);
-			this.moreNews();
-		}
-	}
-
-	componentDidMount(){
-
 	}
 
 	moreNews(e){
@@ -44,37 +63,48 @@ class Category extends Component {
 	}
 
 	render() {
-		const newsList = this.state.data.news[this.props.title.toLowerCase()]?this.state.data.news[this.props.title.toLowerCase()].map((row,index,)=>{
-																				return(
-																					   <Card key={index} cardClass="col-sm-6" cardInfo={row}/>
-																					)
-																				}):null;
-		return (
-			<div>
-				<div className="brdr-ash-1 opacty-5"></div>
-			  <div className="section pv-25 text-left">
-				<div className="container">
-					<div className="row">
-						<div className="col-md-12 col-lg-8">
-							<Title name={this.state.title}/>
-							<div className="row category-news">
-								{newsList}
-							</div>
-							<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>{'PATA '+this.state.title+' ZAIDI'}</b></a>
-						</div>
-						<div className="col-md-6 col-lg-4">
-							<div className="pl-20 pl-md-0">
-								<div className="mb-50">
-									<PopularList />
+		const {categoryPosts, isLoaded} = this.state;
+
+		if (isLoaded) {
+			return (
+				<Layout>
+					<Fragment>
+					<div className="brdr-ash-1 opacty-5"></div>
+					  <div className="section pv-25 text-left">
+						<div className="container">
+							<div className="row">
+								<div className="col-md-12 col-lg-8">
+									{ categoryPosts.length > 0 ? (
+										<Fragment>
+											<MoreNews
+												titleName={categoryPosts[0].categories_list[0].name}
+												cardDiv="row category-news"
+												cardClass="col-sm-6"
+												newsList={categoryPosts}
+												number={10} />
+											<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>{`PATA ${categoryPosts[0].categories_list[0].name.toUpperCase()} ZAIDI`}</b></a>
+										</Fragment>
+									): (
+										<Title name="This Page does not exist"/>
+									)}
 								</div>
-								<Subscribe post={this.props.post} url={this.props.url} />
+								<div className="col-md-6 col-lg-4">
+									<div className="pl-20 pl-md-0">
+										<div className="mb-50">
+											<PopularList />
+										</div>
+										<Subscribe post={this.props.post} url={this.props.url} />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div>
-		);
+					</Fragment>
+				</Layout>
+			);
+
+		}
+		return null;
 	}
 }
 
