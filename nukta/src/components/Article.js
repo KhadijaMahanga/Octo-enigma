@@ -6,6 +6,8 @@ import Card from './Card.js';
 import Subscribe from './Subscribe.js';
 import Layout from './Layout.js';
 import axios from 'axios';
+import 'moment/locale/sw';
+import Moment from 'react-moment';
 
 class Article extends Component {
 
@@ -54,7 +56,7 @@ class Article extends Component {
 				category_name = article.categories_list[0].name;
 				category_slug = article.categories_list[0].slug;
 			}
-			console.log(article);
+			const articleDate = new Date(article.date);
 			return (
 				<Layout>
 					<Fragment>
@@ -68,9 +70,12 @@ class Article extends Component {
 										<b>{article.title.rendered}</b>
 									</h3>
 									<ul className="list-li-mr-20 mtb-15">
-										<li>by{' '}<b>{article.acf.author_name}</b>&nbsp;{article.date}</li>
+										<li>by{' '}<span className="color-primary">{article.acf.author_name}</span>&nbsp;
+										<Moment locale="sw" format="D MMM, YYYY" withTitle>{articleDate}</Moment></li>
 									</ul>
+									<div className="article-summary">
 									{ article.excerpt.rendered && <div dangerouslySetInnerHTML={{__html:article.excerpt.rendered}} /> }
+								</div>
 									<hr/>
 									<div className="article-contents" dangerouslySetInnerHTML={{__html: article.content.rendered }} />
 									<div className="float-left-right text-center mt-40 mt-sm-20">

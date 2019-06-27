@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Header from './components/Header.js';
 import Article from './components/Article.js';
 import About from './components/About.js';
 import Home from './components/Home';
@@ -8,15 +7,15 @@ import Terms from './components/Terms.js';
 import Privacy from './components/Privacy.js';
 import Contact from './components/Contact.js';
 import Category from './components/Category.js';
-import Menu from './components/Menu.js';
-import Footer from './components/Footer.js';
 import Search from './components/Search.js'
+import Data from './components/Data';
 
 function App() {
 	return (
 		<Router>
 				<Switch>
 					<Route exact path="/" component={Home} />
+					<Route exact path="/data" component={Data} />
 					<Route exact path="/:section/:article_slug" component={Article} />
 					<Route exact path="/:section" component={Category} />
 					{/* <Route exact path="/about" render={()=> <About  parentState={this.state} url={url} post={post}/>}/>

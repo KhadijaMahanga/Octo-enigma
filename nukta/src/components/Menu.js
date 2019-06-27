@@ -93,6 +93,9 @@ class Menu extends Component {
 							<Link to={`/${menu.slug}`}>{menu.name}</Link>
 						</li>
 					))}
+					<li menu-item="menu-item" className="menu-item">
+						<Link to="/data">Data</Link>
+					</li>
 				</ul>
 				<div className="clearfix"></div>
 			</div>
