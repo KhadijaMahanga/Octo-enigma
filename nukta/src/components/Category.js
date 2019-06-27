@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Title from './Title.js';
 import PopularList from './PopularList';
-import Card from './Card.js';
 import MoreNews from './MoreNews';
 import Subscribe from './Subscribe.js';
 import Layout from './Layout';
@@ -22,6 +21,7 @@ class Category extends Component {
 
 		this.state = {
 			categoryPosts: [],
+			siteCategory: true,
 			isLoaded: false
 		}
 
@@ -35,6 +35,7 @@ class Category extends Component {
 			.then(res => {
 				this.setState({
 					categoryPosts: res.data,
+					siteCategory: true,
 					isLoaded: true
 				});
 			})
@@ -42,6 +43,7 @@ class Category extends Component {
 		} else {
 			this.setState({
 				categoryPosts: [],
+				siteCategory: false,
 				isLoaded: true
 			});
 		}
@@ -63,7 +65,7 @@ class Category extends Component {
 	}
 
 	render() {
-		const {categoryPosts, isLoaded} = this.state;
+		const { categoryPosts, isLoaded, siteCategory } = this.state;
 
 		if (isLoaded) {
 			return (
@@ -85,7 +87,7 @@ class Category extends Component {
 											<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>{`PATA ${categoryPosts[0].categories_list[0].name.toUpperCase()} ZAIDI`}</b></a>
 										</Fragment>
 									): (
-										<Title name="This Page does not exist"/>
+										<Title name={siteCategory ? "Hatuna habari kwenye sehemu hii": "Huu ukarasa haupo"} />
 									)}
 								</div>
 								<div className="col-md-6 col-lg-4">

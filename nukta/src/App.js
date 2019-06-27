@@ -16,12 +16,12 @@ function App() {
 				<Switch>
 					<Route exact path="/" component={Home} />
 					<Route exact path="/data" component={Data} />
-					<Route exact path="/:section/:article_slug" component={Article} />
-					<Route exact path="/:section" component={Category} />
+					<Route path="/search" component={Search} />
+					<Route path="/:section/:article_slug" component={Article} />
+					<Route path="/:section" component={Category} />
 					{/* <Route exact path="/about" render={()=> <About  parentState={this.state} url={url} post={post}/>}/>
 					<Route path="/contact" render={()=> <Contact parentState={this.state} post={post} url={url}/>}/>
 					<Route path="/privacy" render={()=> <Privacy parentState={this.state} post={post} url={url}/>} />
-					<Route exact path="/search/:question" render={(props)=> <Search title={props.match.params.question} parentState={this.state} url={url} post={post}/>}/>
 					<Route path="/terms" render={()=> <Terms parentState={this.state} post={post} url={url}/>} /> */}
 				</Switch>
 		</Router>

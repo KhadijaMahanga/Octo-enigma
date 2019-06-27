@@ -63,8 +63,9 @@ class Menu extends Component {
 
 	handleSubmit(event) {
     	event.preventDefault();
-    	if($(".question").val()!=="")
-			this.props.history.push("/search/"+$(".question").val());
+    	if($(".question").val()!=="") {
+				this.props.history.push(`/search?q=${$(".question").val()}`);
+			}
 	}
 
 	render() {
