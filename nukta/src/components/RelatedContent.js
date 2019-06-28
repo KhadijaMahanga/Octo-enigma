@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MoreNews from './MoreNews';
 import axios from 'axios';
@@ -20,7 +20,7 @@ class RelatedContent extends Component {
                     isLoaded: true
                 })
             });
-    }   
+    }
 
   render() {
     const { relatedPosts, isLoaded } = this.state;
@@ -38,10 +38,10 @@ class RelatedContent extends Component {
     return null;
   }
 }
-  
+
   RelatedContent.propTypes = {
     postIds: PropTypes.array.isRequired
-  
+
   }
 
 export default RelatedContent;

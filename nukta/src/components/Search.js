@@ -6,15 +6,6 @@ import Subscribe from './Subscribe.js';
 import Layout from './Layout';
 import axios from 'axios';
 
-const categoryMap = {
-	'habari': '2',
-	'teknologia': '4',
-	'biashara': '3',
-	'safari': '5',
-	'ripoti-maalum': '7',
-	'maoni-na-uchambuzi': '6'
-}
-
 class Search extends Component {
 	constructor(props) {
 		super(props);
