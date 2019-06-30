@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import React, { Component } from 'react';
-import { withRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from '../assets/images/logos/logo.svg';
 
 class Menu extends Component {
@@ -19,7 +19,7 @@ class Menu extends Component {
 			.then(data => {
 				const menus = [];
 				if(data.items.length > 0) {
-					data.items.map(item => {
+					data.items.forEach(item => {
 						menus.push({
 							"name": item.title,
 							"slug": item.slug,
@@ -69,7 +69,7 @@ class Menu extends Component {
 	}
 
 	render() {
-		const { menus, searchOpen } = this.state;
+		const { menus } = this.state;
 
   	return (
   		<div className="container">
@@ -90,7 +90,7 @@ class Menu extends Component {
 				<a className="menu-nav-icon" data-menu="#main-menu"><i className="ion-navicon"></i></a>
 				<ul className="main-menu" id="main-menu">
 					{menus.map(menu => (
-						<li menu-item="menu-item" className="menu-item" key={menu.order} onClick={this.toggleMenu}>
+						<li menu-item="menu-item" className="menu-item" key={menu.order}>
 							<Link to={`/${menu.slug}`}>{menu.name}</Link>
 						</li>
 					))}
@@ -104,4 +104,4 @@ class Menu extends Component {
   }
 }
 
-export default withRouter(Menu);
+export default Menu;

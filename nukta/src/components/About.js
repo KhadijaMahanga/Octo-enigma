@@ -9,7 +9,7 @@ class Privacy extends Component {
 		document.title='Nukta | About us';
 		setTimeout(function(){window.scrollTo(0,0)},500);
 	}
-	
+
 	render() {
 		const newsList = this.props.parentState.data.news?this.props.parentState.data.news.map((row,index,)=>{
 																				if(index<6)
@@ -29,14 +29,14 @@ class Privacy extends Component {
 			<div>
 			<div className="brdr-ash-1 opacty-5"></div>
 			  <div className="section pv-50 text-left">
-			  
+
 				<div className="container">
 					<div className="row">
 						<div className="col-md-12 col-lg-8">
 							<Title name="KUHUSU NUKTA"/>
 							<div>
 								<div style={{textAlign:'justify'}}>
-								
+
 								</div>
 							</div>
 						</div>
@@ -44,9 +44,9 @@ class Privacy extends Component {
 							<div className="pl-20 pl-md-0">
 								<div className="mb-50">
 									<Title name="ZILIZOSOMWA ZAIDI"/>
-									{popularList}									
+									{popularList}
 								</div>
-								<Subscribe post={this.props.post} url={this.props.url} />
+								<Subscribe />
 							</div>
 						</div>
 					</div>

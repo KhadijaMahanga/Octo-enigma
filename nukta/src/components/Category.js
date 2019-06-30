@@ -95,7 +95,7 @@ class Category extends Component {
 										<div className="mb-50">
 											<PopularList />
 										</div>
-										<Subscribe post={this.props.post} url={this.props.url} />
+										<Subscribe />
 									</div>
 								</div>
 							</div>
