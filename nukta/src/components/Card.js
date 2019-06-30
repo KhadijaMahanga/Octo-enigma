@@ -25,9 +25,19 @@ function Card ({ cardClass, cardInfo }) {
 	): (
 		<Moment locale="sw" fromNow>{dateToFormat}</Moment>
 	)
+	const videoUrl = cardInfo.acf.videourl;
 	return (
 		<div className={cardClass}>
-			<div className="rw75 bg-layer" style={{backgroundImage: 'url('+coverUrl+')'}}></div>
+			{videoUrl && videoUrl.length > 0 ? (
+				<iframe
+					title={title}
+					src={videoUrl}
+					allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+					className="rw75 bg-layer"
+					style={{ width: '100%', height: '100%', border: '0'}} />
+			): (
+				<div className="rw75 bg-layer" style={{backgroundImage: 'url('+coverUrl+')'}}></div>
+			)}
 			<h4 className="pt-20"><Link to={`/${category}/${url}`}><b>{title}</b></Link></h4>
 			<ul className="list-li-mr-20 pt-10 mb-30">
 				<li className="color-lite-black">

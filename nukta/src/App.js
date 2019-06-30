@@ -16,13 +16,13 @@ function App() {
 				<Switch>
 					<Route exact path="/" component={Home} />
 					<Route exact path="/data" component={Data} />
-					<Route path="/search" component={Search} />
+					<Route exact path="/search" component={Search} />
+					<Route exact path="/about" component={About} />
+					<Route exact path="/privacy" component={Privacy} />
+					<Route exact path="/terms" component={Terms} />
+					<Route exact path="/contact" component={Contact} />
 					<Route path="/:section/:article_slug" component={Article} />
 					<Route path="/:section" component={Category} />
-					{/* <Route exact path="/about" render={()=> <About  parentState={this.state} url={url} post={post}/>}/>
-					<Route path="/contact" render={()=> <Contact parentState={this.state} post={post} url={url}/>}/>
-					<Route path="/privacy" render={()=> <Privacy parentState={this.state} post={post} url={url}/>} />
-					<Route path="/terms" render={()=> <Terms parentState={this.state} post={post} url={url}/>} /> */}
 				</Switch>
 		</Router>
 	);

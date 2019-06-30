@@ -25,9 +25,19 @@ function Cardlow ({ cardClass, cardInfo }) {
 	): (
 		<Moment locale="sw" fromNow>{dateToFormat}</Moment>
 	)
+	const videoUrl = cardInfo.acf.videourl;
 	return (
 			<Link to={`/${category}/${url}`} className={cardClass+' pos-relative mb-5'}>
-				<div className="wh-100x abs-tlr bg-map bg-grad-layer-6" style={{backgroundImage: 'url('+coverUrl+')'}}></div>
+				{videoUrl && videoUrl.length > 0 ? (
+					<iframe
+						title={title}
+						src={videoUrl}
+						allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+						className="wh-100x abs-tlr bg-map bg-grad-layer-6"
+						style={{ width: '100%', height: '100%', border: '0'}} />
+				): (
+					<div className="wh-100x abs-tlr bg-map bg-grad-layer-6" style={{backgroundImage: 'url('+coverUrl+')'}}></div>
+				)}
 				<div className="ml-120 min-h-100x">
 					<h5><b>{title}</b></h5>
 					<h6 className="color-lite-black pt-10"><span className="color-primary">{category_name}</span> {' | '}{momentsPublished}</h6>

@@ -26,11 +26,21 @@ function Cardshow  ({ cardClass, cardInfo }) {
 	): (
 		<Moment locale="sw" fromNow>{dateToFormat}</Moment>
 	)
+	const videoUrl = cardInfo.acf.videourl;
 
 	return (
 		<div className={cardClass}>
 			<Link className="pos-relative h-100 dplay-block text-left" to={`/${category}/${url}`}>
-				<div className="img-bg bg-1 bg-grad-layer-6" style={{ backgroundImage: 'url('+coverUrl+')' }}></div>
+				{videoUrl && videoUrl.length > 0 ? (
+					<iframe
+						title={title}
+						src={videoUrl}
+						allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+						className="img-bg bg-1 bg-grad-layer-6"
+						style={{ width: '100%', height: '100%', border: '0'}} />
+				): (
+					<div className="img-bg bg-1 bg-grad-layer-6" style={{ backgroundImage: 'url('+coverUrl+')' }}></div>
+				)}
 				<div className="bg-clr-black abs-blr color-white p-10 bg-sm-color-7 font-10">
 					<h4 className="mb-0 font-11"><b>{title}</b></h4>
 					<ul className="list-li-mr-20">

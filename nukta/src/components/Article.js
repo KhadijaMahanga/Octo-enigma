@@ -62,7 +62,7 @@ class Article extends Component {
 				category_slug = article.categories_list[0].slug;
 			}
 			const articleDate = new Date(article.date);
-			console.log(article.excerpt.rendered.replace('<br>', '</p><p>'));
+			const videoUrl = article.acf.videourl;
 			return (
 				<Layout>
 					<Fragment>
@@ -71,7 +71,16 @@ class Article extends Component {
 						<div className="container">
 							<div className="row">
 								<div className="col-md-12 col-lg-8">
-									<div className="rw60 bg-layer" style={{backgroundImage: 'url('+article.full_image_src+')'}}></div>
+									{videoUrl && videoUrl.length > 0 ? (
+										<iframe
+											title={article.title.rendered}
+											src={videoUrl}
+											allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+											className="rw60 bg-layer"
+											style={{ width: '100%', height: '100%', border: '0'}} />
+									): (
+										<div className="rw60 bg-layer" style={{backgroundImage: 'url('+article.full_image_src+')'}}></div>
+									)}
 									<h3 className="mt-30">
 										<b>{article.title.rendered}</b>
 									</h3>
