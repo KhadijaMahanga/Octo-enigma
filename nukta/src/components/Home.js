@@ -96,7 +96,7 @@ class Home extends Component {
 											cardDiv="row more-news"
 											cardClass="col-sm-4"
 											newsList={otherArticles.slice(10)} />
-										<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>PATA HABARI ZAIDI TOKA NUKTA</b></a>
+										{/* <a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>PATA HABARI ZAIDI TOKA NUKTA</b></a> */}
 									</Fragment>
 								)}
 							</div>

@@ -92,7 +92,7 @@ class Category extends Component {
 												cardClass="col-sm-6"
 												newsList={categoryPosts}
 												number={10} />
-											<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>{`PATA ${categoryPosts[0].categories_list[0].name.toUpperCase()} ZAIDI`}</b></a>
+											{/* <a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>{`PATA ${categoryPosts[0].categories_list[0].name.toUpperCase()} ZAIDI`}</b></a> */}
 										</Fragment>
 									): (
 										<Title name={siteCategory ? "Hatuna habari kwenye sehemu hii": "Huu ukarasa haupo"} />
