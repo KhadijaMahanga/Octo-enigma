@@ -22,7 +22,7 @@ class Subscribe extends Component {
     	event.preventDefault();
 			const subscribeInput = this.state.value;
 
-			const emailPattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
+			const emailPattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\b$/i;
 			const phonePattern = /^\0?([0-9]{9})\)$/;
 
     	if(emailPattern.test(subscribeInput) || phonePattern.test(subscribeInput)){
