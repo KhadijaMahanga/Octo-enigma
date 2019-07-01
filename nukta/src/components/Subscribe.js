@@ -27,7 +27,7 @@ class Subscribe extends Component {
 
     	if(emailPattern.test(subscribeInput) || phonePattern.test(subscribeInput)){
 
-				axios.post('https://script.google.com/a/nukta.co.tz/macros/s/AKfycbw4O1zOmc3CbWEO0TdvM7udi9oALACGIenWWnyT7clCcLoC1i4e/exec', {
+				axios.post('https://script.google.com/macros/s/AKfycbw4O1zOmc3CbWEO0TdvM7udi9oALACGIenWWnyT7clCcLoC1i4e/exec', {
 				    contact: 'Fred'
 				  })
 				  .then(function (response) {
