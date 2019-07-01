@@ -26,9 +26,13 @@ class Subscribe extends Component {
 			const phonePattern = /^\0?([0-9]{9})\)$/;
 
     	if(emailPattern.test(subscribeInput) || phonePattern.test(subscribeInput)){
+				const formData = new FormData();
+				formData.append("contact", subscribeInput);
 
-				axios.post('https://script.google.com/macros/s/AKfycbw4O1zOmc3CbWEO0TdvM7udi9oALACGIenWWnyT7clCcLoC1i4e/exec', {
-				    contact: 'Fred'
+				axios.post('https://script.google.com/macros/s/AKfycbw4O1zOmc3CbWEO0TdvM7udi9oALACGIenWWnyT7clCcLoC1i4e/exec', formData, {
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+					}
 				  })
 				  .then(function (response) {
 				    alert(subscribeInput+" imeongezwa kikamilifu");
