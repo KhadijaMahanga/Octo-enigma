@@ -35,7 +35,6 @@ class Menu extends Component {
 			var srcIcn = $('.src-icn');
 			var closeIcn = $('.close-icn');
 			var srcForm = $('.src-form');
-			var mnItm = $('.menu-item');
 			srcBtn.on('click', function(){
 				if($(".question").val()!=="")
 				$(".question").val("")
@@ -44,11 +43,6 @@ class Menu extends Component {
 					$(closeIcn).toggleClass('active');
 					$(srcForm).toggleClass('active');
 				}
-			});
-
-			$('[data-menu]').on('click', function(){
-				var mainMenu = $(this).data('menu');
-				$(mainMenu).toggleClass('visible-menu');
 			});
 	}
 

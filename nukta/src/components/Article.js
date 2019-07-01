@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
 import PopularList from './PopularList';
 import Subscribe from './Subscribe.js';
-import Layout from './Layout.js';
 import axios from 'axios';
 import 'moment/locale/sw';
 import Moment from 'react-moment';
@@ -64,7 +63,6 @@ class Article extends Component {
 			const articleDate = new Date(article.date);
 			const videoUrl = article.acf.videourl;
 			return (
-				<Layout>
 					<Fragment>
 					<div className="brdr-ash-1 opacty-5" />
 					<div className="section pv-50 text-left">
@@ -122,7 +120,6 @@ class Article extends Component {
 						</div>
 					</div>
 				</Fragment>
-			</Layout>
 		);
 
 		}

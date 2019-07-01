@@ -3,7 +3,6 @@ import Title from './Title.js';
 import PopularList from './PopularList';
 import MoreNews from './MoreNews';
 import Subscribe from './Subscribe.js';
-import Layout from './Layout';
 import axios from 'axios';
 
 const categoryMap = {
@@ -24,22 +23,32 @@ class Category extends Component {
 			siteCategory: true,
 			isLoaded: false
 		}
-
+			this.loadCategoryPost = this.loadCategoryPost.bind(this);
     	this.moreNews = this.moreNews.bind(this);
   	}
 
+ componentDidUpdate(prevProps) {
+	 const { match: {params: { section } } } = this.props;
+	 const prevCategory = prevProps.match.params.section;
+	 if (prevCategory !== section) {
+		 this.loadCategoryPost(section);
+	 }
+ }
+
 	componentDidMount() {
-		const categoryId = categoryMap[this.props.match.params.section];
+		const { match: {params: { section } } } = this.props;
+		this.loadCategoryPost(section);
+	}
+
+	async loadCategoryPost(section) {
+		const categoryId = categoryMap[section];
 		if (categoryId) {
-			axios.get(`/wp-json/wp/v2/posts?categories=${categoryId}`)
-			.then(res => {
-				this.setState({
-					categoryPosts: res.data,
+			const response = await axios.get(`/wp-json/wp/v2/posts?categories=${categoryId}`);
+			this.setState({
+					categoryPosts: response.data,
 					siteCategory: true,
 					isLoaded: true
 				});
-			})
-			.catch(err => console.log(err));
 		} else {
 			this.setState({
 				categoryPosts: [],
@@ -69,7 +78,6 @@ class Category extends Component {
 
 		if (isLoaded) {
 			return (
-				<Layout>
 					<Fragment>
 					<div className="brdr-ash-1 opacty-5"></div>
 					  <div className="section pv-25 text-left">
@@ -102,7 +110,6 @@ class Category extends Component {
 						</div>
 					</div>
 					</Fragment>
-				</Layout>
 			);
 
 		}

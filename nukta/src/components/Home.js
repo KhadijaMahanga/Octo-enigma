@@ -5,7 +5,6 @@ import PopularList from './PopularList';
 import Cardlow from './Cardlow';
 import Card from './Card';
 import Subscribe from './Subscribe';
-import Layout from './Layout';
 import MoreNews from './MoreNews';
 
 class Home extends Component {
@@ -48,7 +47,6 @@ class Home extends Component {
 			const otherArticles = articles.slice(6);
 
 			return (
-				<Layout>
 					<div>
 						{recentArticles.length > 5? (<Homeshow slides={recentArticles} />) : null }
 						<div className="section pv-50 text-left">
@@ -104,7 +102,6 @@ class Home extends Component {
 							</div>
 						</div>
 					</div>
-				</Layout>
 			);
 		}
 

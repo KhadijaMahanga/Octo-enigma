@@ -3,7 +3,6 @@ import Title from './Title.js';
 import PopularList from './PopularList';
 import MoreNews from './MoreNews';
 import Subscribe from './Subscribe.js';
-import Layout from './Layout';
 import axios from 'axios';
 
 class Search extends Component {
@@ -62,8 +61,7 @@ class Search extends Component {
 
 		if (isLoaded) {
 			return (
-				<Layout>
-					<Fragment>
+				<Fragment>
 					<div className="brdr-ash-1 opacty-5"></div>
 					  <div className="section pv-25 text-left">
 						<div className="container">
@@ -95,7 +93,6 @@ class Search extends Component {
 						</div>
 					</div>
 					</Fragment>
-				</Layout>
 			);
 
 		}

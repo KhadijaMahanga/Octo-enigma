@@ -9,10 +9,12 @@ import Contact from './components/Contact.js';
 import Category from './components/Category.js';
 import Search from './components/Search.js'
 import Data from './components/Data';
+import Layout from './components/Layout';
 
 function App() {
 	return (
 		<Router>
+			<Layout>
 				<Switch>
 					<Route exact path="/" component={Home} />
 					<Route exact path="/data" component={Data} />
@@ -24,6 +26,7 @@ function App() {
 					<Route path="/:section/:article_slug" component={Article} />
 					<Route path="/:section" component={Category} />
 				</Switch>
+			</Layout>
 		</Router>
 	);
 }
