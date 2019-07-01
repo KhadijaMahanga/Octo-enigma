@@ -123,7 +123,7 @@ class Article extends Component {
 		);
 
 		}
-		return <p>Loading..</p>
+		return null;
 	}
 }
 

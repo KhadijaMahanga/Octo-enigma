@@ -17,7 +17,7 @@ class Home extends Component {
   	}
 
 	componentDidMount() {
-		fetch('/wp-json/wp/v2/posts?per_page=25')
+		fetch('https://api.nukta.co.tz/wp-json/wp/v2/posts?per_page=25')
       	.then(res => res.json())
       	.then(res => {
 			this.setState({
@@ -105,7 +105,7 @@ class Home extends Component {
 			);
 		}
 
-		return <h3>Loading ...</h3>
+		return null;
 	}
 }
 

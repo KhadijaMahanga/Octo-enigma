@@ -25,7 +25,7 @@ class Search extends Component {
 		console.log(searchTerm);
 
 		if (this.state.searchTerm !== searchTerm) {
-			axios.get(`/wp-json/wp/v2/posts?search=${searchTerm}`)
+			axios.get(`https://api.nukta.co.tz/wp-json/wp/v2/posts?search=${searchTerm}`)
 			.then(res => {
 				this.setState({
 					searchResults: res.data,

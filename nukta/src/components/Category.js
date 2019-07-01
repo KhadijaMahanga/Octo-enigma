@@ -43,7 +43,7 @@ class Category extends Component {
 	async loadCategoryPost(section) {
 		const categoryId = categoryMap[section];
 		if (categoryId) {
-			const response = await axios.get(`/wp-json/wp/v2/posts?categories=${categoryId}`);
+			const response = await axios.get(`https://api.nukta.co.tz/wp-json/wp/v2/posts?categories=${categoryId}`);
 			this.setState({
 					categoryPosts: response.data,
 					siteCategory: true,
