@@ -50,10 +50,6 @@ class Menu extends Component {
 				var mainMenu = $(this).data('menu');
 				$(mainMenu).toggleClass('visible-menu');
 			});
-
-			mnItm.on('click', function(){
-				console.log("click");
-			});
 	}
 
 
@@ -64,7 +60,7 @@ class Menu extends Component {
 	handleSubmit(event) {
     	event.preventDefault();
     	if($(".question").val()!=="") {
-				this.props.history.push(`/search?q=${$(".question").val()}`);
+				window.location =`/search?q=${$(".question").val()}`;
 			}
 	}
 
