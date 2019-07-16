@@ -1,39 +1,63 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Title from './Title.js';
-import Cardlow from './Cardlow.js';
-import Card from './Card.js';
-import Subscribe from './Subscribe.js'
+import PopularList from './PopularList';
+import MoreNews from './MoreNews';
+import Subscribe from './Subscribe.js';
+import axios from 'axios';
+
+const categoryMap = {
+	'habari': '2',
+	'teknologia': '4',
+	'biashara': '3',
+	'safari': '5',
+	'ripoti-maalum': '7',
+	'maoni-na-uchambuzi': '6'
+}
 
 class Category extends Component {
 	constructor(props) {
-    	super(props);
+		super(props);
+
+		this.state = {
+			categoryPosts: [],
+			siteCategory: true,
+			isLoaded: false
+		}
+			this.loadCategoryPost = this.loadCategoryPost.bind(this);
     	this.moreNews = this.moreNews.bind(this);
   	}
-	
-	state = {
-		title:'',
-		data:{ids:[],news:[]}
-		}
-		
-	setData=(title,info)=>{
+
+ componentDidUpdate(prevProps) {
+	 const { match: {params: { section } } } = this.props;
+	 const prevCategory = prevProps.match.params.section;
+	 if (prevCategory !== section) {
+		 this.loadCategoryPost(section);
+	 }
+ }
+
+	componentDidMount() {
+		const { match: {params: { section } } } = this.props;
+		this.loadCategoryPost(section);
+	}
+
+	async loadCategoryPost(section) {
+		const categoryId = categoryMap[section];
+		if (categoryId) {
+			const response = await axios.get(`https://api.nukta.co.tz/wp-json/wp/v2/posts?categories=${categoryId}`);
 			this.setState({
-				title:title,
-				data:info
-			})
-		}
-	
-	componentDidUpdate(prevProps){
-		if(prevProps.title!==this.props.title){
-			this.setData(this.props.title,this.state.data);
-			this.moreNews();
+					categoryPosts: response.data,
+					siteCategory: true,
+					isLoaded: true
+				});
+		} else {
+			this.setState({
+				categoryPosts: [],
+				siteCategory: false,
+				isLoaded: true
+			});
 		}
 	}
-	
-	componentDidMount(){
-		this.setData(this.props.title,this.state.data);
-		this.moreNews();
-	}
-	
+
 	moreNews(e){
 		if(e)
 			e.preventDefault();
@@ -42,53 +66,54 @@ class Category extends Component {
 		this.props.post(this.props.url()+'api/?action=category&title='+this.props.title+'&ids='+ids,function(result,obj){
 				obj.state.data.news[obj.props.title]=obj.state.data.news[obj.props.title]?obj.state.data.news[obj.props.title].concat(result.news):result.news;
 				obj.state.data.news[result.title]=result.news;
-				obj.state.data.ids[result.title]=result.ids;	
+				obj.state.data.ids[result.title]=result.ids;
 				obj.setData(obj.state.title,obj.state.data);
 				document.title='Nukta | '+result.title;
 				setTimeout(function(){window.scrollTo(0,0)},500);
 			},this)
 	}
-	
+
 	render() {
-		const newsList = this.state.data.news[this.props.title.toLowerCase()]?this.state.data.news[this.props.title.toLowerCase()].map((row,index,)=>{
-																				return(
-																					   <Card key={index} cardClass="col-sm-6" cardInfo={row}/>
-																					)
-																				}):null;
-		const popularList = this.props.parentState.data.popular?this.props.parentState.data.popular.map((row,index,)=>{
-																				if(index<5)
-																					return(
-																					   <Cardlow key={index} cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={row}/>
-																					)
-																				else return(<div key={index}></div>);
-																			}):null;
-		return (
-			<div>
-				<div className="brdr-ash-1 opacty-5"></div>
-			  <div className="section pv-25 text-left">
-				<div className="container">  
-					<div className="row">
-						<div className="col-md-12 col-lg-8">
-							<Title name={this.state.title}/>
-							<div className="row category-news">
-								{newsList}
-							</div>
-							<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>{'PATA '+this.state.title+' ZAIDI'}</b></a>
-						</div>
-						<div className="col-md-6 col-lg-4">
-							<div className="pl-20 pl-md-0">
-								<div className="mb-50">
-									<Title name="ZILIZOSOMWA ZAIDI"/>
-									{popularList}									
+		const { categoryPosts, isLoaded, siteCategory } = this.state;
+
+		if (isLoaded) {
+			return (
+					<Fragment>
+					<div className="brdr-ash-1 opacty-5"></div>
+					  <div className="section pv-25 text-left">
+						<div className="container">
+							<div className="row">
+								<div className="col-md-12 col-lg-8">
+									{ categoryPosts.length > 0 ? (
+										<Fragment>
+											<MoreNews
+												titleName={categoryPosts[0].categories_list[0].name}
+												cardDiv="row category-news"
+												cardClass="col-sm-6"
+												newsList={categoryPosts}
+												number={10} />
+											{/* <a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>{`PATA ${categoryPosts[0].categories_list[0].name.toUpperCase()} ZAIDI`}</b></a> */}
+										</Fragment>
+									): (
+										<Title name={siteCategory ? "Hatuna habari kwenye sehemu hii": "Huu ukarasa haupo"} />
+									)}
 								</div>
-								<Subscribe post={this.props.post} url={this.props.url} />
+								<div className="col-md-6 col-lg-4">
+									<div className="pl-20 pl-md-0">
+										<div className="mb-50">
+											<PopularList />
+										</div>
+										<Subscribe />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div>
-		);
+					</Fragment>
+			);
+
+		}
+		return null;
 	}
 }
 

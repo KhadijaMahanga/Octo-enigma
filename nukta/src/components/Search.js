@@ -1,100 +1,102 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Title from './Title.js';
-import Cardlow from './Cardlow.js';
-import Card from './Card.js';
+import PopularList from './PopularList';
+import MoreNews from './MoreNews';
+import Subscribe from './Subscribe.js';
+import axios from 'axios';
 
 class Search extends Component {
 	constructor(props) {
-    	super(props);
+		super(props);
+
+		this.state = {
+			searchResults: [],
+			isLoaded: false,
+			searchTerm: '',
+		}
+
     	this.moreNews = this.moreNews.bind(this);
   	}
-	
-	state = {
-		title:'',
-		data:{ids:[],news:[]}
-		}
-		
-	setData=(title,info)=>{
-			this.setState({
-				title:title,
-				data:info
+
+	componentDidMount() {
+		const windowUrl = this.props.location.search;
+		const params = new URLSearchParams(windowUrl);
+		const searchTerm = params.get('q');
+		console.log(searchTerm);
+
+		if (this.state.searchTerm !== searchTerm) {
+			axios.get(`https://api.nukta.co.tz/wp-json/wp/v2/posts?search=${searchTerm}`)
+			.then(res => {
+				this.setState({
+					searchResults: res.data,
+					isLoaded: true,
+					searchTerm
+				});
 			})
-		}
-	
-	componentDidUpdate(prevProps){
-		if(prevProps.title!==this.props.title){
-			this.setData(this.props.title,this.state.data);
-			this.moreNews();
+			.catch(err => console.log(err));
+		} else {
+			this.setState({
+				isLoaded: true
+			});
 		}
 	}
-	
-	componentDidMount(){
-		this.setData(this.props.title,this.state.data);
-		this.moreNews();
-	}
-	
+
 	moreNews(e){
 		if(e)
 			e.preventDefault();
 		var ids = this.state.data.ids[this.props.title]?this.state.data.ids[this.props.title].join():'';
 		if(this)
-		this.props.post(this.props.url()+'api/?action=search&query='+this.props.title+'&ids='+ids,function(result,obj){
+		this.props.post(this.props.url()+'api/?action=category&title='+this.props.title+'&ids='+ids,function(result,obj){
 				obj.state.data.news[obj.props.title]=obj.state.data.news[obj.props.title]?obj.state.data.news[obj.props.title].concat(result.news):result.news;
 				obj.state.data.news[result.title]=result.news;
-				obj.state.data.ids[result.title]=result.ids;	
+				obj.state.data.ids[result.title]=result.ids;
 				obj.setData(obj.state.title,obj.state.data);
 				document.title='Nukta | '+result.title;
 				setTimeout(function(){window.scrollTo(0,0)},500);
 			},this)
 	}
-	
+
 	render() {
-		const newsList = this.state.data.news[this.props.title.toLowerCase()]?this.state.data.news[this.props.title.toLowerCase()].map((row,index,)=>{
-																				return(
-																					   <Card key={index} cardClass="col-sm-6" cardInfo={row}/>
-																					)
-																				}):null;
-		const popularList = this.props.parentState.data.popular?this.props.parentState.data.popular.map((row,index,)=>{
-																				if(index<5)
-																					return(
-																					   <Cardlow key={index} cardClass="oflow-hidden pos-relative mb-20 dplay-block" cardInfo={row}/>
-																					)
-																				else return(<div key={index}></div>);
-																			}):null;
-		return (
-			<div>
-				<div className="brdr-ash-1 opacty-5"></div>
-			  <div className="section pv-25 text-left">
-				<div className="container">  
-					<div className="row">
-						<div className="col-md-12 col-lg-8">
-							<Title name={this.state.title}/>
-							<div className="row category-news">
-								{newsList}
-							</div>
-							<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>{'PATA ZAIDI'}</b></a>
-						</div>
-						<div className="col-md-6 col-lg-4">
-							<div className="pl-20 pl-md-0">
-								<div className="mb-50">
-									<Title name="ZILIZOSOMWA ZAIDI"/>
-									{popularList}									
+		const {searchResults, isLoaded, searchTerm } = this.state;
+
+		if (isLoaded) {
+			return (
+				<Fragment>
+					<div className="brdr-ash-1 opacty-5"></div>
+					  <div className="section pv-25 text-left">
+						<div className="container">
+							<div className="row">
+								<div className="col-md-12 col-lg-8">
+									{ searchResults.length > 0 ? (
+										<Fragment>
+											<MoreNews
+												titleName={`Habari zenye neno ${searchTerm}`}
+												cardDiv="row category-news"
+												cardClass="col-sm-6"
+												newsList={searchResults}
+												number={10} />
+											<a className="dplay-block btn-brdr-primary mt-20 mb-md-50" onClick={this.moreNews} href=""><b>{`TAFUTA ZAIDI`}</b></a>
+										</Fragment>
+									): (
+										<Title name="Hatukuweza Kupata Unachotafuta"/>
+									)}
 								</div>
-								<div className="mtb-50 mb-md-0">
-									<Title name="JIUNGE KWA HABARI"/>
-									<p className="mb-20">Jiunge nasi uweze kupata habari motomoto zinazokuhusu kwa wakati.</p>
-									<form className="nwsltr-primary-1">
-										<input type="text" placeholder="Barua pepe"/>
-										<button type="button"><i className="ion-ios-paperplane"></i></button>
-									</form>
+								<div className="col-md-6 col-lg-4">
+									<div className="pl-20 pl-md-0">
+										<div className="mb-50">
+											<PopularList />
+										</div>
+										<Subscribe />
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div>
-		);
+					</Fragment>
+			);
+
+		}
+		return null;
 	}
 }
 

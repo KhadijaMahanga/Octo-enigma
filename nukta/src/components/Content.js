@@ -51,9 +51,9 @@ class Content extends Component {
 							<div className="pl-20 pl-md-0">
 								<div className="mb-50">
 									<Title name="ZILIZOSOMWA ZAIDI"/>
-									{popularList}									
+									{popularList}
 								</div>
-								<Subscribe post={this.props.post} url={this.props.url} />
+								<Subscribe />
 							</div>
 						</div>
 					</div>
