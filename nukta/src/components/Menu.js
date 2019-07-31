@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import logo from '../assets/images/logos/logo.svg';
+import logo from '../assets/images/logos/logo.png';
 
 class Menu extends Component {
 	constructor(props){
