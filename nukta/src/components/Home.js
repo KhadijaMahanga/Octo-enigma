@@ -88,6 +88,11 @@ class Home extends Component {
 										</div>
 									</div>
 								</div>
+								<div className="row">
+									<div className="col-md-12 col-lg-12">
+										<Title name="VIDEO"/>
+									</div>
+								</div>
 								{otherArticles.length > 9 && (
 									<Fragment>
 										<MoreNews
